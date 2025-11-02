@@ -375,7 +375,9 @@
     startGame({numJugadores:nj, numRondas:nr, nombres});
   });
 
-  // (arrow handlers are bound per-item in addArrowHandlers)
+  // dynamic update of player names inputs when number changes
+  els.numJug.addEventListener('input', renderNombreInputs);
+  els.numJug.addEventListener('change', renderNombreInputs);
 
   $('#btnCerrarRonda').addEventListener('click', closeRound);
   $('#btnCancelarRonda').addEventListener('click', ()=>{ show(VIEWS.config); });

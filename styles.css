@@ -26,8 +26,8 @@ button.danger{background:var(--danger)}
 .rank-2{background:linear-gradient(90deg,rgba(192,192,192,.12),transparent)}
 .rank-3{background:linear-gradient(90deg,rgba(205,127,50,.12),transparent)}
 .dnd-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
-.dnd-item{display:flex;align-items:center;gap:10px;padding:10px;background:#142043;border:1px solid #1f2f57;border-radius:12px}
-.handle{width:28px;height:28px;border-radius:8px;background:#203a5d;display:grid;place-items:center;color:#9fb3c8;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab}
+.dnd-item{display:flex;align-items:center;gap:12px;padding:12px;background:#142043;border:1px solid #1f2f57;border-radius:12px}
+.handle{width:40px;height:40px;border-radius:10px;background:#203a5d;display:grid;place-items:center;color:#9fb3c8;user-select:none;-webkit-user-select:none;touch-action:none;cursor:grab;font-size:18px}
 .tag{margin-left:auto;font-size:12px;color:#9fb3c8}
 .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;background:#1e335c;color:#cfe1ff}
 .history-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
