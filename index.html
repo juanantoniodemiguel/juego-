@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0ea5e9" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="stylesheet" href="./styles.css?v=5" />
+  <title>Marcador Rondas</title>
+</head>
+<body>
+  <header class="topbar">
+    <h1>Marcador</h1>
+    <nav class="nav">
+      <button id="btnNueva" class="secondary" title="Nueva partida">Nueva</button>
+      <button id="btnHistorial" class="secondary" title="Historial">Historial</button>
+      <button id="btnInstalar" class="secondary" title="Instalar">Instalar</button>
+    </nav>
+  </header>
+
+  <main id="app">
+    <!-- Pantalla: Configuración -->
+    <section id="view-config" class="view">
+      <h2>Configuración</h2>
+      <form id="formConfig" autocomplete="off">
+        <div class="field">
+          <label for="numJugadores">Número de jugadores</label>
+          <input id="numJugadores" type="number" min="2" max="12" value="4" required />
+        </div>
+        <div class="field">
+          <label for="numRondas">Número de rondas</label>
+          <input id="numRondas" type="number" min="1" max="24" value="6" required />
+        </div>
+        <div id="nombresContainer" class="field-list"></div>
+        <div class="actions">
+          <button type="submit" class="primary">Comenzar</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Pantalla: Ronda (Drag & Drop) -->
+    <section id="view-ronda" class="view hidden">
+      <h2 id="tituloRonda">Ronda</h2>
+      <p class="muted">Ordena de 1º a último. Arrastra desde el asa ⇅ o usa ▲▼.</p>
+      <ul id="listaJugadores" class="dnd-list" aria-label="Orden de llegada"></ul>
+      <div class="actions">
+        <button id="btnCancelarRonda" class="secondary">Atrás</button>
+        <button id="btnCerrarRonda" class="primary">Cerrar ronda</button>
+      </div>
+
+      <div id="tablaPuntosRonda" class="panel"></div>
+      <div id="tablaAcumulado" class="panel"></div>
+    </section>
+
+    <!-- Pantalla: Final -->
+    <section id="view-final" class="view hidden">
+      <h2>Resultado final</h2>
+      <div id="tablaFinal" class="panel"></div>
+      <div class="actions">
+        <button id="btnCopiarTexto" class="secondary">Copiar texto</button>
+        <button id="btnNuevaDesdeFinal" class="primary">Nueva partida</button>
+      </div>
+    </section>
+
+    <!-- Pantalla: Historial -->
+    <section id="view-historial" class="view hidden">
+      <h2>Historial</h2>
+      <div class="actions">
+        <button id="btnBorrarHistorial" class="danger">Borrar historial</button>
+      </div>
+      <ul id="listaHistorial" class="history-list"></ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>v5 • Funciona offline. Puntuación: 1º = N, 2º = N-2, luego N-3 hasta 0 (último).</small>
+  </footer>
+
+  <script src="./app.js?v=5" defer></script>
+</body>
+</html>

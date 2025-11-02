@@ -1,0 +1,10 @@
+{
+  "name": "Marcador de Rondas",
+  "short_name": "Marcador",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0ea5e9",
+  "description": "Marcador de partidas por rondas con arrastrar y soltar, offline e instalable.",
+  "icons": []
+}
