@@ -118,6 +118,7 @@
       const handle = li.querySelector('.handle');
       if(handle){ handle.setAttribute('draggable','true'); }
       addDnDHandlers(li, handle);
+      addArrowHandlers(li);
       els.listaJugadores.appendChild(li);
     });
     // Render tablas
@@ -309,6 +310,33 @@
     renderTablaPuntosRonda(computePointsByPosition(state.ordenRonda.length));
   }
 
+  function addArrowHandlers(li){
+    const id = li.dataset.id;
+    const upBtn = li.querySelector('button.up');
+    const downBtn = li.querySelector('button.down');
+    const makeHandler = (dir)=>{
+      return (e)=>{
+        e.preventDefault(); e.stopPropagation();
+        const now = Date.now();
+        const last = e.currentTarget._lastTapTime || 0;
+        if(now - last < 220) return; // debounce
+        e.currentTarget._lastTapTime = now;
+        if(dir==='up') moveItemById(id, -1);
+        else moveItemById(id, +1);
+      };
+    };
+    if(upBtn){
+      const hUp = makeHandler('up');
+      upBtn.addEventListener('click', hUp, true);
+      upBtn.addEventListener('touchend', hUp, {passive:false, capture:true});
+    }
+    if(downBtn){
+      const hDown = makeHandler('down');
+      downBtn.addEventListener('click', hDown, true);
+      downBtn.addEventListener('touchend', hDown, {passive:false, capture:true});
+    }
+  }
+
   function moveItemById(id, delta){
     const idx = state.ordenRonda.indexOf(id);
     if(idx<0) return;
@@ -321,7 +349,13 @@
     const li = els.listaJugadores.querySelector(`[data-id="${id}"]`);
     const ref = els.listaJugadores.children[newIdx];
     if(ref){
-      els.listaJugadores.insertBefore(li, ref);
+      if(newIdx > idx){
+        // moving down: insert after ref
+        els.listaJugadores.insertBefore(li, ref.nextSibling);
+      } else {
+        // moving up: insert before ref
+        els.listaJugadores.insertBefore(li, ref);
+      }
     } else {
       els.listaJugadores.appendChild(li);
     }
@@ -341,10 +375,10 @@
     startGame({numJugadores:nj, numRondas:nr, nombres});
   });
 
-  els.numJug.addEventListener('change', renderNombreInputs);
+  // (arrow handlers are bound per-item in addArrowHandlers)
+
   $('#btnCerrarRonda').addEventListener('click', closeRound);
   $('#btnCancelarRonda').addEventListener('click', ()=>{ show(VIEWS.config); });
-
   $('#btnNueva').addEventListener('click', ()=>{ show(VIEWS.config); });
   $('#btnHistorial').addEventListener('click', ()=>{ renderHistory(); show(VIEWS.historial); });
   $('#btnBorrarHistorial').addEventListener('click', ()=>{
@@ -352,42 +386,6 @@
   });
   $('#btnCopiarTexto').addEventListener('click', copySummary);
   $('#btnNuevaDesdeFinal').addEventListener('click', ()=>{ show(VIEWS.config); });
-
-  // Event delegation for touch-friendly up/down buttons
-  els.listaJugadores.addEventListener('click', (e)=>{
-    const btn = e.target.closest('button');
-    if(!btn || !btn.dataset.dir) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const li = e.target.closest('.dnd-item');
-    if(!li) return;
-    const id = li.dataset.id;
-    if(btn.dataset.dir === 'up') moveItemById(id, -1);
-    if(btn.dataset.dir === 'down') moveItemById(id, +1);
-  });
-  els.listaJugadores.addEventListener('touchstart', (e)=>{
-    const btn = e.target.closest('button');
-    if(!btn || !btn.dataset.dir) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const li = e.target.closest('.dnd-item');
-    if(!li) return;
-    const id = li.dataset.id;
-    if(btn.dataset.dir === 'up') moveItemById(id, -1);
-    if(btn.dataset.dir === 'down') moveItemById(id, +1);
-  }, { passive: false });
-  // pointerdown for broader iOS compatibility
-  els.listaJugadores.addEventListener('pointerdown', (e)=>{
-    const btn = e.target.closest('button');
-    if(!btn || !btn.dataset.dir) return;
-    e.preventDefault();
-    e.stopPropagation();
-    const li = e.target.closest('.dnd-item');
-    if(!li) return;
-    const id = li.dataset.id;
-    if(btn.dataset.dir === 'up') moveItemById(id, -1);
-    if(btn.dataset.dir === 'down') moveItemById(id, +1);
-  });
 
   // Install prompt
   window.addEventListener('beforeinstallprompt', (e)=>{
